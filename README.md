@@ -4,20 +4,20 @@ A full-stack MERN application for IT teams to manage projects, tasks, and collab
 
 ---
 
-## 📋 Features
+## Features
 
-- 🔐 Role-based authentication (Admin / Developer / QA / DevOps)
-- 📁 Project management with tech stack tracking
-- ✅ Task management with priority levels and status tracking
-- 🔴 Real-time updates via Socket.IO
-- 🤖 Smart workload balancing suggestions
-- ⚠️ Deadline alerts (overdue / urgent highlighting)
-- 🔔 Live notification system
-- 📊 Team productivity analytics
+- Role-based authentication (Admin / Developer / QA / DevOps)
+- Project management with tech stack tracking
+- Task management with priority levels and status tracking
+- Real-time updates via Socket.IO
+- Smart workload balancing suggestions
+- Deadline alerts (overdue / urgent highlighting)
+- Live notification system
+- Team productivity analytics
 
 ---
 
-## 🏗 Tech Stack
+## Tech Stack
 
 | Layer     | Technology                  |
 |-----------|-----------------------------|
@@ -41,7 +41,7 @@ A full-stack MERN application for IT teams to manage projects, tasks, and collab
 
 ---
 
-## 📁 Folder Structure
+## Folder Structure
 
 ```
 devops-platform/
@@ -63,7 +63,7 @@ devops-platform/
 
 ---
 
-## 🚀 Local Setup
+## Local Setup
 
 ### 1. Clone the repo
 ```bash
@@ -93,71 +93,6 @@ Frontend: http://localhost:3000
 Backend: http://localhost:5000
 
 ---
-
-## 🌐 Deployment
-
-### Backend → Render
-
-1. Push project to GitHub
-2. Go to https://render.com → New Web Service
-3. Connect your GitHub repo
-4. Set Root Directory: `server`
-5. Build Command: `npm install`
-6. Start Command: `npm start`
-7. Add environment variables:
-   - `MONGO_URI` — your MongoDB Atlas URI
-   - `CLIENT_URL` — your Vercel frontend URL
-
-### Frontend → Vercel
-
-1. Go to https://vercel.com → New Project
-2. Import your GitHub repo
-3. Set Root Directory: `client`
-4. Add environment variable:
-   - `REACT_APP_API_URL` — your Render backend URL (e.g. `https://your-app.onrender.com`)
-5. Deploy!
-
----
-
-## 🔌 Socket.IO Events
-
-| Event          | Direction        | Description                    |
-|----------------|------------------|--------------------------------|
-| `join`         | Client → Server  | Join personal notification room|
-| `task:created` | Server → Client  | New task was created           |
-| `task:updated` | Server → Client  | Task status changed            |
-| `task:deleted` | Server → Client  | Task was deleted               |
-
----
-
-## 📡 API Reference
-
-### Auth
-- `POST /api/auth/register` — Register new employee
-- `POST /api/auth/login` — Login
-
-### Projects
-- `GET /api/projects` — All projects
-- `GET /api/projects/my/:userId` — Employee's projects
-- `POST /api/projects` — Create project (admin)
-- `DELETE /api/projects/:id` — Delete project (admin)
-
-### Tasks
-- `GET /api/tasks` — All tasks
-- `GET /api/tasks/my/:userId` — My tasks
-- `GET /api/tasks/analytics` — Stats
-- `GET /api/tasks/suggest?role=developer` — Smart suggestions
-- `POST /api/tasks` — Create task (admin)
-- `PUT /api/tasks/:id` — Update status
-- `DELETE /api/tasks/:id` — Delete task (admin)
-
-### Notifications
-- `GET /api/notifications/:userId`
-- `PUT /api/notifications/:id/read`
-- `PUT /api/notifications/all/:userId/read`
-
----
-
 ## 💡 Key Concepts Explained
 
 ### Role-Based Access
@@ -181,26 +116,3 @@ Backend: http://localhost:5000
 - Task cards get colored left borders for visibility
 
 ---
-
-## 🛠 Common Issues & Fixes
-
-| Problem | Fix |
-|---------|-----|
-| CORS error | Set `CLIENT_URL` env var on Render to your Vercel URL |
-| Socket not connecting | Ensure `REACT_APP_API_URL` points to backend |
-| MongoDB connection fails | Check Atlas IP whitelist (allow 0.0.0.0/0) |
-| Demo data not loading | Wait a few seconds — server seeds on startup |
-
----
-
-## 📤 GitHub Push Commands
-
-```bash
-git init
-git add .
-git commit -m "Initial commit: DevOps Platform"
-git branch -M main
-git remote add origin https://github.com/yourusername/devops-platform.git
-git push -u origin main
-```
-# DevPro
