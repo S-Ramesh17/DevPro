@@ -503,3 +503,104 @@ body {
   .form-row { grid-template-columns: 1fr; }
   .auth-card { padding: 24px; }
 }
+
+/* =====================================================
+   MOBILE RESPONSIVE SIDEBAR
+===================================================== */
+
+.mobile-topbar {
+  display: none;
+}
+
+.sidebar-close-btn {
+  display: none;
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: white;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 90;
+  }
+
+  .mobile-topbar h2 {
+    font-size: 20px;
+    color: var(--text);
+  }
+
+  .mobile-menu-btn {
+    border: none;
+    background: var(--primary);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  .main-content.with-sidebar {
+    margin-left: 0;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-close-btn {
+    display: block;
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .mobile-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+  }
+
+  .page-header {
+    padding: 20px 20px 0;
+  }
+
+  .content-grid.two-col {
+    grid-template-columns: 1fr;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+    padding: 0 20px;
+  }
+
+  .card {
+    margin: 0 20px;
+  }
+}
