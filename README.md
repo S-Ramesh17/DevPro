@@ -30,7 +30,7 @@ A full-stack MERN application for IT teams to manage projects, tasks, and collab
 
 ---
 
-## 🎭 Demo Accounts
+## Demo Accounts
 
 | Role         | Email              | Password |
 |--------------|--------------------|----------|
@@ -93,7 +93,7 @@ Frontend: http://localhost:3000
 Backend: http://localhost:5000
 
 ---
-## 💡 Key Concepts Explained
+## Key Concepts Explained
 
 ### Role-Based Access
 - Admin: full CRUD on projects and tasks, analytics view
