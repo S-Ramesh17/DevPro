@@ -1,7 +1,11 @@
-// src/App.js - Main app entry point with responsive mobile sidebar
+// src/App.js
 
 import React, { useState } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
+
+import {
+  AuthProvider,
+  useAuth
+} from './context/AuthContext';
 
 import Sidebar from './components/Sidebar';
 
@@ -17,42 +21,68 @@ import NotificationsPage from './pages/NotificationsPage';
 
 import './styles/App.css';
 
-// Inner app that manages navigation
 const AppContent = () => {
 
   const { user } = useAuth();
 
   const [page, setPage] = useState('login');
 
-  // ===== MOBILE SIDEBAR =====
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  // MOBILE SIDEBAR
+  const [sidebarOpen, setSidebarOpen] =
+    useState(false);
 
-  // Determine which page to show
+  // CURRENT PAGE
   const getPage = () => {
 
     if (!user) return page;
 
-    return page === 'login' || page === 'register'
-      ? (user.role === 'admin'
-          ? 'dashboard'
-          : 'my-dashboard')
+    return (
+      page === 'login' ||
+      page === 'register'
+    )
+      ? (
+          user.role === 'admin'
+            ? 'dashboard'
+            : 'my-dashboard'
+        )
       : page;
   };
 
   const currentPage = getPage();
 
+  // NAVIGATION
+  const handleNavigate = (newPage) => {
+
+    setPage(newPage);
+
+    // AUTO CLOSE MOBILE SIDEBAR
+    if (window.innerWidth <= 768) {
+      setSidebarOpen(false);
+    }
+  };
+
+  // PAGE RENDERER
   const renderPage = () => {
 
+    // AUTH PAGES
     if (!user) {
 
       if (currentPage === 'register') {
-        return <RegisterPage onNavigate={setPage} />;
+        return (
+          <RegisterPage
+            onNavigate={setPage}
+          />
+        );
       }
 
-      return <LoginPage onNavigate={setPage} />;
+      return (
+        <LoginPage
+          onNavigate={setPage}
+        />
+      );
     }
 
-    // ===== ADMIN PAGES =====
+    // ADMIN PAGES
     if (user.role === 'admin') {
 
       switch (currentPage) {
@@ -74,7 +104,7 @@ const AppContent = () => {
       }
     }
 
-    // ===== EMPLOYEE PAGES =====
+    // EMPLOYEE PAGES
     switch (currentPage) {
 
       case 'my-dashboard':
@@ -98,28 +128,32 @@ const AppContent = () => {
 
     <div className="app">
 
-      {/* ===== MOBILE OVERLAY ===== */}
-      {sidebarOpen && (
-        <div
-          className="mobile-overlay"
-          onClick={() => setSidebarOpen(false)}
-        />
+      {/* ===== HAMBURGER BUTTON ===== */}
+
+      {user && (
+        <button
+          className="hamburger-btn"
+          onClick={() =>
+            setSidebarOpen(true)
+          }
+        >
+          ☰
+        </button>
       )}
 
       {/* ===== SIDEBAR ===== */}
+
       {user && (
         <Sidebar
           currentPage={currentPage}
-          onNavigate={(newPage) => {
-            setPage(newPage);
-            setSidebarOpen(false);
-          }}
+          onNavigate={handleNavigate}
           sidebarOpen={sidebarOpen}
           setSidebarOpen={setSidebarOpen}
         />
       )}
 
       {/* ===== MAIN CONTENT ===== */}
+
       <main
         className={
           user
@@ -128,23 +162,6 @@ const AppContent = () => {
         }
       >
 
-        {/* ===== MOBILE TOPBAR ===== */}
-        {user && (
-          <div className="mobile-topbar">
-
-            <button
-              className="mobile-menu-btn"
-              onClick={() => setSidebarOpen(true)}
-            >
-              ☰
-            </button>
-
-            <h2>DevPro</h2>
-
-          </div>
-        )}
-
-        {/* ===== PAGE CONTENT ===== */}
         {renderPage()}
 
       </main>
