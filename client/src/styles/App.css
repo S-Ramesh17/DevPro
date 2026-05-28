@@ -881,21 +881,14 @@ color: #fff;
   }
 
   .sidebar {
-
     display: flex !important;
-
     position: fixed;
-
     top: 0;
     left: 0;
-
     width: 260px;
     height: 100vh;
-
     transform: translateX(-100%);
-
     transition: transform 0.3s ease;
-
     z-index: 1000;
   }
 
@@ -904,40 +897,25 @@ color: #fff;
   }
 
   .sidebar-close-btn {
-
     display: block;
-
     position: absolute;
-
     top: 14px;
     right: 14px;
-
     width: 34px;
     height: 34px;
-
     border: none;
-
     border-radius: 8px;
-
     background: rgba(255,255,255,0.1);
-
     color: white;
-
     font-size: 18px;
-
     cursor: pointer;
   }
 
   .mobile-overlay {
-
     display: block;
-
     position: fixed;
-
     inset: 0;
-
     background: rgba(0,0,0,0.45);
-
     z-index: 999;
   }
 }
