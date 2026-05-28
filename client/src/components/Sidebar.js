@@ -69,14 +69,6 @@ const Sidebar = ({
       }`}
     >
 
-      {/* MOBILE CLOSE BUTTON */}
-      <button
-        className="sidebar-close-btn"
-        onClick={() => setSidebarOpen(false)}
-      >
-        ✕
-      </button>
-
       {/* LOGO */}
       <div className="sidebar-logo">
         <h2>
