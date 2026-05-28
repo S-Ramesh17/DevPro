@@ -1,75 +1,101 @@
 // src/App.js - Main app entry point with page routing
 import React, { useState } from 'react';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import './styles/App.css';
+
 import Sidebar from './components/Sidebar';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
 import AdminDashboard from './pages/AdminDashboard';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import ProjectsPage from './pages/ProjectsPage';
 import TasksPage from './pages/TasksPage';
 import NotificationsPage from './pages/NotificationsPage';
-import './styles/App.css';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 
-// Inner app that manages navigation
-const AppContent = () => {
+import { useAuth } from './context/AuthContext';
+
+function App() {
   const { user } = useAuth();
-  const [page, setPage] = useState('login');
 
-  // Determine which page to show
-  const getPage = () => {
-    if (!user) return page; // Not logged in: show login/register
-    // Logged in: default to their dashboard
-    return page === 'login' || page === 'register'
-      ? (user.role === 'admin' ? 'dashboard' : 'my-dashboard')
-      : page;
-  };
+  const [currentPage, setCurrentPage] = useState(
+    user?.role === 'admin' ? 'dashboard' : 'my-dashboard'
+  );
 
-  const currentPage = getPage();
+  const [showRegister, setShowRegister] = useState(false);
+
+  // ===== MOBILE SIDEBAR STATE =====
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (!user) {
+    return showRegister ? (
+      <RegisterPage onBack={() => setShowRegister(false)} />
+    ) : (
+      <LoginPage onRegister={() => setShowRegister(true)} />
+    );
+  }
 
   const renderPage = () => {
-    if (!user) {
-      if (currentPage === 'register') return <RegisterPage onNavigate={setPage} />;
-      return <LoginPage onNavigate={setPage} />;
-    }
-
-    // Admin pages
-    if (user.role === 'admin') {
-      switch (currentPage) {
-        case 'dashboard': return <AdminDashboard />;
-        case 'projects':  return <ProjectsPage />;
-        case 'tasks':     return <TasksPage />;
-        case 'notifications': return <NotificationsPage />;
-        default:          return <AdminDashboard />;
-      }
-    }
-
-    // Employee pages (developer / qa / devops)
     switch (currentPage) {
-      case 'my-dashboard': return <EmployeeDashboard />;
-      case 'projects':     return <ProjectsPage />;
-      case 'tasks':        return <TasksPage />;
-      case 'notifications': return <NotificationsPage />;
-      default:             return <EmployeeDashboard />;
+      case 'dashboard':
+        return <AdminDashboard />;
+
+      case 'my-dashboard':
+        return <EmployeeDashboard />;
+
+      case 'projects':
+        return <ProjectsPage />;
+
+      case 'tasks':
+        return <TasksPage />;
+
+      case 'notifications':
+        return <NotificationsPage />;
+
+      default:
+        return user?.role === 'admin'
+          ? <AdminDashboard />
+          : <EmployeeDashboard />;
     }
   };
 
   return (
     <div className="app">
-      {/* Sidebar only visible when logged in */}
-      {user && <Sidebar currentPage={currentPage} onNavigate={setPage} />}
-      <main className={user ? 'main-content with-sidebar' : 'main-content'}>
+      {/* ===== MOBILE OVERLAY ===== */}
+      {sidebarOpen && (
+        <div
+          className="mobile-overlay"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
+
+      {/* ===== SIDEBAR ===== */}
+      <Sidebar
+        currentPage={currentPage}
+        onNavigate={(page) => {
+          setCurrentPage(page);
+          setSidebarOpen(false);
+        }}
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
+
+      {/* ===== MAIN CONTENT ===== */}
+      <main className="main-content with-sidebar">
+
+        {/* ===== MOBILE TOPBAR ===== */}
+        <div className="mobile-topbar">
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setSidebarOpen(true)}
+          >
+            ☰
+          </button>
+
+          <h2>DevPro</h2>
+        </div>
+
         {renderPage()}
       </main>
     </div>
-  );
-};
-
-function App() {
-  return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
   );
 }
 
