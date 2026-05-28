@@ -3,38 +3,51 @@ import React, { useState } from 'react';
 import './styles/App.css';
 
 import Sidebar from './components/Sidebar';
+
 import AdminDashboard from './pages/AdminDashboard';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 import ProjectsPage from './pages/ProjectsPage';
 import TasksPage from './pages/TasksPage';
 import NotificationsPage from './pages/NotificationsPage';
+
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
 import { useAuth } from './context/AuthContext';
 
 function App() {
-  const { user } = useAuth();
 
-  const [currentPage, setCurrentPage] = useState(
-    user?.role === 'admin' ? 'dashboard' : 'my-dashboard'
-  );
+  const { user } = useAuth();
 
   const [showRegister, setShowRegister] = useState(false);
 
-  // ===== MOBILE SIDEBAR STATE =====
+  const [currentPage, setCurrentPage] = useState(
+    user?.role === 'admin'
+      ? 'dashboard'
+      : 'my-dashboard'
+  );
+
+  // ===== MOBILE SIDEBAR =====
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  // ===== LOGIN / REGISTER =====
   if (!user) {
     return showRegister ? (
-      <RegisterPage onBack={() => setShowRegister(false)} />
+      <RegisterPage
+        onBack={() => setShowRegister(false)}
+      />
     ) : (
-      <LoginPage onRegister={() => setShowRegister(true)} />
+      <LoginPage
+        onRegister={() => setShowRegister(true)}
+      />
     );
   }
 
+  // ===== PAGE RENDER =====
   const renderPage = () => {
+
     switch (currentPage) {
+
       case 'dashboard':
         return <AdminDashboard />;
 
@@ -59,6 +72,7 @@ function App() {
 
   return (
     <div className="app">
+
       {/* ===== MOBILE OVERLAY ===== */}
       {sidebarOpen && (
         <div
@@ -79,10 +93,11 @@ function App() {
       />
 
       {/* ===== MAIN CONTENT ===== */}
-      <main className="main-content with-sidebar">
+      <div className="main-content with-sidebar">
 
         {/* ===== MOBILE TOPBAR ===== */}
         <div className="mobile-topbar">
+
           <button
             className="mobile-menu-btn"
             onClick={() => setSidebarOpen(true)}
@@ -91,10 +106,14 @@ function App() {
           </button>
 
           <h2>DevPro</h2>
+
         </div>
 
+        {/* ===== PAGE CONTENT ===== */}
         {renderPage()}
-      </main>
+
+      </div>
+
     </div>
   );
 }
