@@ -162,21 +162,4 @@ function App() {
   );
 }
 
-export default App;          >
-            ☰
-          </button>
-
-          <h2>DevPro</h2>
-
-        </div>
-
-        {/* ===== PAGE CONTENT ===== */}
-        {renderPage()}
-
-      </div>
-
-    </div>
-  );
-}
-
 export default App;
