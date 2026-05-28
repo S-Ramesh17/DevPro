@@ -1,4 +1,4 @@
-# 🚀 DevOpsPro — Real-Time Workforce Automation Platform
+# DevOpsPro — Real-Time Workforce Automation Platform
 
 A full-stack MERN application for IT teams to manage projects, tasks, and collaborate in real time.
 
