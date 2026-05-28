@@ -27,34 +27,6 @@ const Sidebar = ({
   const navItems = [
     {
       id: user?.role === 'admin' ? 'dashboard' : 'my-dashboard',
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../context/AuthContext';
-import { getNotifications } from '../services/api';
-
-const Sidebar = ({
-  currentPage,
-  onNavigate,
-  sidebarOpen,
-  setSidebarOpen
-}) => {
-  const { user, logout } = useAuth();
-
-  const [unreadCount, setUnreadCount] = useState(0);
-
-  useEffect(() => {
-    if (user) {
-      getNotifications(user._id)
-        .then((res) => {
-          const unread = res.data.filter((n) => !n.read).length;
-          setUnreadCount(unread);
-        })
-        .catch(() => {});
-    }
-  }, [user]);
-
-  const navItems = [
-    {
-      id: user?.role === 'admin' ? 'dashboard' : 'my-dashboard',
       label: 'Dashboard',
     },
     {
